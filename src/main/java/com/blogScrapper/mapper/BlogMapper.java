@@ -2,9 +2,12 @@ package com.blogScrapper.mapper;
 
 import com.blogScrapper.dto.BlogResponseDTO;
 import com.blogScrapper.model.Blog;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class BlogMapper {
 
     public BlogResponseDTO toDTO(Blog b){
