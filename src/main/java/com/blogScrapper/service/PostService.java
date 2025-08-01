@@ -1,0 +1,28 @@
+package com.blogScrapper.service;
+
+import com.blogScrapper.dto.PostRequestDTO;
+import com.blogScrapper.dto.PostResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.time.Duration;
+
+@Service
+@RequiredArgsConstructor
+public class PostService {
+
+    private WebClient webClient;
+
+    public PostResponseDTO getPost(String url){
+        PostRequestDTO requestDTO = new PostRequestDTO(url);
+
+        return webClient.post()
+                .uri("/extract")
+                .bodyValue(requestDTO)
+                .retrieve()
+                .bodyToMono(PostResponseDTO.class)
+                .block(Duration.ofSeconds(10));
+    }
+}

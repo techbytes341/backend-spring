@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 public class BlogResponseDTO {
     private Long id;
-    private Long post;
     private String headline;
     private String summary;
     private String theme;
