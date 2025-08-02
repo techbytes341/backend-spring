@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class PostRequestDTO {
     private String url;
+    private String selector;
 }

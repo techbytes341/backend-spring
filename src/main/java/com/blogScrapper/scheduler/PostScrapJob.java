@@ -2,8 +2,10 @@ package com.blogScrapper.scheduler;
 
 import com.blogScrapper.dto.PostResponseDTO;
 import com.blogScrapper.model.Blog;
+import com.blogScrapper.model.Theme;
 import com.blogScrapper.repository.BlogRepository;
 import com.blogScrapper.service.PostService;
+import com.blogScrapper.utils.BlogConfig;
 import com.blogScrapper.utils.BlogSourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,12 +26,12 @@ public class PostScrapJob {
 
     @Scheduled(cron = "0 0 * * * *")
     public void getPostAndSaveBlogs(){
-        List<String> urlList = blogSourceConfig.getSources();
-        for(String url:urlList){
-            try{
-                PostResponseDTO responseDTO = postService.getPost(url);
-                String summary = null;//get summarized blog content through ai
-                String theme = null;//get from AI;
+        List<BlogConfig> urlConfigList = blogSourceConfig.getConfigs();
+        urlConfigList.forEach(config -> {
+            try {
+                PostResponseDTO responseDTO = postService.getPost(config.getHomepageUrl(),config.getBlogLinkSelector());
+                String summary = null; //get summarized blog content through ai
+                Theme theme = null; //get from AI;
                 Blog blog = new Blog(
                         responseDTO.getTitle(),
                         summary,
@@ -38,9 +40,9 @@ public class PostScrapJob {
                 );
                 blogRepository.save(blog);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }

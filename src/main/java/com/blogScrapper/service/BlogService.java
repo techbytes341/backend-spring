@@ -6,10 +6,7 @@ import com.blogScrapper.mapper.BlogMapper;
 import com.blogScrapper.model.Blog;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,16 +49,21 @@ public class BlogService {
         Long totalCount = entityManager.createQuery(countQuery).getSingleResult();
         return new BlogPageResponseDTO(blogPageResponseDTOS,totalCount);
     }
-    private Predicate buildFilterPredicate(CriteriaBuilder cb, Root<Blog> root, String company, String theme) {
+
+
+    // gernerate predicates
+    private Predicate buildFilterPredicate(CriteriaBuilder cb, Root<Blog> blog, String company, String theme) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (company != null && !company.isEmpty()) {
-            predicates.add(cb.equal(cb.lower(root.get("company")), company.toLowerCase()));
+            predicates.add(cb.equal(blog.get("company"), company));
         }
 
         if (theme != null && !theme.isEmpty()) {
-            predicates.add(cb.equal(cb.lower(root.get("theme")), theme.toLowerCase()));
+            Join<Object, Object> themeJoin = blog.join("theme", JoinType.INNER);
+            predicates.add(cb.equal(themeJoin.get("name"), theme));
         }
+
 
         return cb.and(predicates.toArray(new Predicate[0]));
     }

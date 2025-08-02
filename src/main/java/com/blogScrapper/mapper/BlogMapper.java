@@ -12,7 +12,7 @@ public class BlogMapper {
     public BlogResponseDTO toDTO(Blog b){
         return  new BlogResponseDTO(b.getId(),
                 b.getHeadline(),
-                b.getSummary(),b.getTheme(),b.getAudioUrl(),b.getCoverImage(),
+                b.getSummary(),b.getTheme() != null ? b.getTheme().getName() : null,b.getAudioUrl(),b.getCoverImage(),
                 b.getCompany(),b.getCreatedAt(),b.getViews());
     }
 

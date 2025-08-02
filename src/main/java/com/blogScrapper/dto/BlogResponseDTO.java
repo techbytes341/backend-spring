@@ -1,5 +1,6 @@
 package com.blogScrapper.dto;
 
+import com.blogScrapper.model.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

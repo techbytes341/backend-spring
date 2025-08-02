@@ -10,5 +10,13 @@ import java.util.List;
 @ConfigurationProperties(prefix = "blog")
 @Data
 public class BlogSourceConfig {
-    private List<String> sources;
+    private List<BlogConfig> configs;
+
+    public List<BlogConfig> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(List<BlogConfig> configs) {
+        this.configs = configs;
+    }
 }

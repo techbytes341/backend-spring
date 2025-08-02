@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -18,9 +16,10 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String headline;
+
+    @Lob
     private String summary;
     private String author;
-    private String theme;
     private String audioUrl;
     private String coverImage;
     private String company;
@@ -28,10 +27,14 @@ public class Blog {
     private LocalDateTime createdAt = LocalDateTime.now();
     private Long views =0L;
 
+    @ManyToOne
+    @JoinColumn(name = "theme_id",nullable = false)
+    private Theme theme;
+
     public Blog() {
     }
 
-    public Blog(String headline, String summary, String author, String theme, String company, LocalDateTime publishedAt, String coverImage) {
+    public Blog(String headline, String summary, String author, Theme theme, String company, LocalDateTime publishedAt, String coverImage) {
         this.headline = headline;
         this.summary = summary;
         this.author = author;
