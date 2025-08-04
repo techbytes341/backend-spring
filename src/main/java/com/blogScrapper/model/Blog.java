@@ -16,8 +16,6 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String headline;
-
-    @Lob
     private String summary;
     private String author;
     private String audioUrl;
