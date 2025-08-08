@@ -25,7 +25,7 @@ public class Blog {
     private LocalDateTime createdAt = LocalDateTime.now();
     private Long views =0L;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "theme_id",nullable = false)
     private Theme theme;
 
